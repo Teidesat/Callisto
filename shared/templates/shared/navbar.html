@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'departments:department-list' %}">
+      <span class="fw-bold">Callisto</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'departments:department-list' %}">
+            <i class="bi bi-book me-2"></i>Departments
+          </a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>{{ request.user.first_name|default:request.user.username }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li class="dropdown-item disabled">
+              <div class="d-flex align-items-center">
+                <div>
+                  <h6 class="mb-0">{{ request.user.get_full_name }}</h6>
+                  <small class="text-muted">{{ request.user.email }}</small>
+                </div>
+              </div>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'users:user-detail' request.user %}">
+                <i class="bi bi-person me-2"></i>Profile 
+                {% if request.user.profile.is_admin %}
+                  <span class="badge bg-success">Admin</span>
+                {% else %}
+                  <span class="badge bg-secondary">Student</span>
+                {% endif %}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-left"></i>Logout
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'edit-profile' %}">
+                <i class="bi bi-pencil-square"></i>Edit Profile
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            {% if request.user.is_authenticated %}
+              {% if not request.user.profile.is_teacher %}
+                <li>
+                  <a class="dropdown-item bg-danger text-white" href="{% url 'leave' %}">
+                    <i class="bi bi-x-circle me-2"></i> Dejar Callisto
+                  </a>
+                </li>
+              {% endif %}
+            {% endif %}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    transition: all 0.3s ease;
+  }
+  .navbar-brand img {
+    transition: transform 0.3s ease;
+  }
+  .navbar-brand:hover img {
+    transform: rotate(360deg);
+  }
+  .dropdown-menu {
+    border: none;
+    border-radius: 10px;
+  }
+</style>

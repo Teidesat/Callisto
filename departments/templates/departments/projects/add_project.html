@@ -1,0 +1,29 @@
+{% extends "shared/base.html" %}
+{% block body %}
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb ms-3 mt-3">
+      <li class="breadcrumb-item"><a href="{% url "departments:department-list" %}">Subject List</a></li>
+      <li class="breadcrumb-item"><a href="{% url "departments:department-detail" department.code%}">{{department.code}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Add Lesson</li>
+    </ol>
+</nav>
+{% if messages %}
+    <div class="container mt-3 message">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div>
+<form method="post" novalidate>
+  {% csrf_token %}
+  <div class="w-50 ms-auto me-auto">
+    {{form}}
+    <input type="submit" class="btn bg-primary text-white ms-auto me-auto mt-3" value="Guardar">
+  </div>
+  </form>
+</div>
+{% endblock body %}

@@ -1,0 +1,103 @@
+{% extends "shared/base.html" %}
+
+{% block body %}
+{% if messages %}
+    <div class="container mt-3 message">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <div class="position-relative d-inline-block">
+                            <img src="{{ profile.avatar.url }}" 
+                                 class="rounded-circle border border-4 border-white" 
+                                 style="width: 150px; height: 150px; object-fit: cover;" 
+                                 alt="Profile Picture">
+                            {% if user == request.user %}
+                            <a href="{% url 'edit-profile' %}" 
+                               class="btn btn-sm btn-light rounded-circle position-absolute bottom-0 end-0 m-2">
+                                <i class="bi bi-pencil-fill text-primary"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                        <h2 class="mt-3 mb-1">{{ user.first_name }} {{ user.last_name }}</h2>
+                        <p class="text-white-50 mb-2">@{{ user.username }}</p>
+                        
+                        {% if user.profile.is_teacher %}
+                            <span class="badge bg-success">Teacher</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Student</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary mb-3">
+                                    <i class="bi bi-person-lines-fill me-2"></i>About Me
+                                </h5>
+                                <p class="text-muted">{{ profile.bio|default:"No bio available" }}</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-3">
+                            {% if user == request.user %}
+                            <a href="{% url 'edit-profile' %}" class="btn btn-primary">
+                                <i class="bi bi-pencil-fill me-2"></i>Edit Profile
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Sections (Optional) -->
+                <div class="mt-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">
+                                        <i class="bi bi-envelope-fill me-2"></i>Contact
+                                    </h5>
+                                    <p class="text-muted">{{ user.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">
+                                        <i class="bi bi-calendar-check-fill me-2"></i>Member Since
+                                    </h5>
+                                    <p class="text-muted">{{ user.date_joined|date:"F d, Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    }
+</style>
+
+{% endblock %}

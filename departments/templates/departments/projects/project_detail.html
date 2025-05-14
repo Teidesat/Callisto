@@ -1,0 +1,55 @@
+{% extends 'shared/base.html' %}
+
+{% block body %}
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+  <ol class="breadcrumb ms-3 mt-3">
+    <li class="breadcrumb-item"><a href="{% url "departments:department-list" %}">Department List</a></li>
+    <li class="breadcrumb-item"><a href="{% url "departments:department-detail" department.code %}">{{ department.code }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Project Detail</li>
+  </ol>
+</nav>
+
+<div class="container mt-4">
+  <div class="text-center mb-4">
+    <h1 class="display-4 text-primary">{{ project.title }}</h1>
+  </div>
+
+  {% if user.profile.is_admin %}
+    <div class="text-end mb-3">
+      <a href="{% url 'departments:edit-project' department.code project.pk %}" class="btn btn-warning btn-sm me-2">
+        <i class="bi bi-pencil-square"></i> Edit
+      </a>
+      <a href="{% url 'departments:delete-project' department.code project.pk %}" class="btn btn-danger btn-sm">
+        <i class="bi bi-trash"></i> Delete
+      </a>
+    </div>
+  {% endif %}
+
+  <div class="card shadow-lg border-0 rounded">
+    <div class="card-body">
+      <p class="card-text">{{ project.content }}</p>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'departments:department-detail' department.code %}" class="btn btn-outline-primary">
+      <i class="bi bi-arrow-left"></i> Back to Department
+    </a>
+  </div>
+</div>
+
+<style>
+  .card {
+    transition: transform 0.2s;
+  }
+
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .text-primary {
+    color: #007bff !important; 
+  }
+</style>
+{% endblock body %}

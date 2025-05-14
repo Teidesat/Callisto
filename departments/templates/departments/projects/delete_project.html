@@ -1,0 +1,24 @@
+{% extends "shared/base.html" %}
+
+{% block body %}
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb ms-3 mt-3">
+      <li class="breadcrumb-item"><a href="{% url "subjects:subject-list" %}">Subject List</a></li>
+      <li class="breadcrumb-item"><a href="{% url "subjects:subject-detail" subject.code%}">{{subject.code}}</a></li>
+      <li class="breadcrumb-item"><a href="{% url "subjects:lesson-detail" subject.code lesson.pk%}">Lesson Detail</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Delete Lesson</li>
+    </ol>
+</nav>
+<div class="container mt-5">
+    <div class="card w-50 mx-auto">
+        <div class="card-body text-center">
+            <h3 class="text-danger">Has borrado el echo con éxito</h3>
+            <p class="card-text">Esta acción no se puede deshacer.</p>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <a href="{% url 'subjects:subject-detail' subject.code %}" class="btn btn-secondary">Volver</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
